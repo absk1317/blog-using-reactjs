@@ -49,7 +49,7 @@
       className: 'blogs'
       React.DOM.h2
         className: 'title'
-        'Blogs List'
+        'Posts List'
       React.DOM.div
         className: 'blogs-down-padding'
       React.createElement BlogForm, handleNewBlog: @addBlog

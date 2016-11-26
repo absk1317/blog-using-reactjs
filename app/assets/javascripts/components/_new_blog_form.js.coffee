@@ -28,7 +28,7 @@
         type: 'submit'
         className: 'btn btn-success'
         disabled: !@valid()
-        'Create Blog'
+        'Create New Post'
   handleChange: (e) ->
     name = e.target.name
     @setState "#{ name }": e.target.value
