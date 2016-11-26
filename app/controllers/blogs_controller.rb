@@ -10,10 +10,14 @@ class BlogsController < ApplicationController
     respond_with params[:count].present? ? Blog.all.first(params[:count]) : Blog.all
   end
 
+  def comments
+    blog = Blog.find(params[:id])
+    respond_with blog.comments
+  end
   # GET /blogs/1
   # GET /blogs/1.json
   def show
-    render json: @blog
+    render json: { blog: @blog, comments: @blog.comments }
   end
 
   # GET /blogs/new

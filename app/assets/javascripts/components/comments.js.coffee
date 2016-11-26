@@ -1,4 +1,4 @@
-@Blog = React.createClass
+@Comment = React.createClass
   getInitialState: ->
     edit: false
 
@@ -9,42 +9,36 @@
   handleEdit: (e) ->
     e.preventDefault()
     data =
-      author: ReactDOM.findDOMNode(@refs.author).value
       content: ReactDOM.findDOMNode(@refs.content).value
     $.ajax
       method: 'PUT'
-      url: "/blogs/#{ @props.blog.id }"
+      url: "/comments/#{ @props.comment.id }"
       dataType: 'JSON'
       data:
-        blog: data
+        comment: data
       success: (data) =>
         @setState edit: false
-        @props.handleEditBlog @props.blog, data
+        @props.handleEditComment @props.comment, data
 
   handleDelete: (e) ->
     e.preventDefault()
     $.ajax
       method: 'DELETE'
-      url: "/blogs/#{ @props.blog.id }"
+      url: "/comments/#{ @props.comment.id }"
       dataType: 'JSON'
       success: () =>
-        @props.handleDeleteBlog @props.blog
+        @props.handleDeleteComment @props.comment
 
   render: ->
     if @state.edit
-      @blogForm()
+      @commentForm()
     else
-      @blogRow()
+      @commentRow()
 
-  blogRow: ->
+  commentRow: ->
     React.DOM.tr null,
-      React.DOM.td className: 'col-md-4 center', @props.blog.author
-      React.DOM.td className: 'col-md-4 center', @props.blog.content
+      React.DOM.td className: 'col-md-4 center', @props.comment.content
       React.DOM.td className: 'col-md-4 center',
-        React.DOM.a
-          className: 'btn btn-success'
-          onClick: @renderBlog
-          'Show'
         React.DOM.a
           className: 'btn btn-warning'
           onClick: @handleToggle
@@ -54,25 +48,15 @@
           onClick: @handleDelete
           'Delete'
 
-  blogForm: ->
+  commentForm: ->
     React.DOM.tr null,
       React.DOM.td className: 'col-md-4 center',
         React.DOM.input
           className: 'form-control'
           type: 'text'
-          defaultValue: @props.blog.author
-          ref: 'author'
-      React.DOM.td className: 'col-md-4 center',
-        React.DOM.input
-          className: 'form-control'
-          type: 'text'
-          defaultValue: @props.blog.content
+          defaultValue: @props.comment.content
           ref: 'content'
       React.DOM.td className: 'col-md-4 center',
-        React.DOM.a
-          className: 'btn btn-success'
-          onClick: @renderBlog
-          'Show'
         React.DOM.a
           className: 'btn btn-default'
           onClick: @handleEdit
@@ -81,11 +65,3 @@
           className: 'btn btn-danger'
           onClick: @handleToggle
           'Cancel'
-
-  renderBlog: ->
-    $.ajax
-      type: 'GET'
-      url: '/blogs/' + @props.blog.id
-      success: (data) ->
-        ReactDOM.render(React.createElement(ShowBlog, {data: data}) , document.getElementById('display_blog') )
-    return
