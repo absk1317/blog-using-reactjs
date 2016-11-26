@@ -17,4 +17,4 @@ production:
   <<: *default
   database: myapp_production
   username: myapp
-  password: herokuapp
+  password:
